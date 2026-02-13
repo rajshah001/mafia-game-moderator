@@ -50,6 +50,20 @@ A simple, intuitive web app for moderating Mafia games (also known as Werewolf).
 
 ---
 
+## ✨ New in This Update
+
+**🔊 Sound Effects** - Every action has audio feedback (clicks, add, remove, success, warning)
+- **🎯 Automated Flows** - Step-by-step prompts guide you through each phase
+- **💬 Smart Modals** - Beautiful overlay prompts instead of browser alerts
+- **✨ Animations** - Smooth transitions, pulse effects, confetti on win
+
+**How It Works Now:**
+1. Add players → Click "Start Game"
+2. Follow step-by-step prompts for each action
+3. Press **Space** or click button to advance through phases
+4. Sounds play automatically for feedback
+5. Game saves and loads automatically
+
 ## 💾 Data Features
 
 - **Auto-save** - Everything saves to browser storage automatically
