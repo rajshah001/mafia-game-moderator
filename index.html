@@ -21,8 +21,6 @@
             --godfather: #8e24aa;
             --neutral: #78909c;
             --dead: #37474f;
-            --success: #22c55e;
-            --warning: #f59e0b;
         }
 
         * {
@@ -76,27 +74,11 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            animation: pulse 2s ease-in-out;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
         }
 
         .status-badge.phase {
             background: var(--accent);
             font-weight: bold;
-        }
-
-        .status-badge.action {
-            background: var(--success);
-            animation: glow 1.5s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { box-shadow: 0 0 10px var(--success); }
-            to { box-shadow: 0 0 20px var(--success); }
         }
 
         .main-content {
@@ -139,14 +121,6 @@
             font-weight: 500;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
         .btn-primary {
             background: var(--accent);
             color: white;
@@ -154,6 +128,7 @@
 
         .btn-primary:hover {
             background: var(--accent-hover);
+            transform: translateY(-2px);
         }
 
         .btn-secondary {
@@ -164,22 +139,17 @@
 
         .btn-secondary:hover {
             background: var(--accent);
-            color: white;
+            transform: translateY(-2px);
         }
 
         .btn-danger {
             background: transparent;
-            color: var(--warning);
-            border: 1px solid var(--warning);
+            color: var(--accent);
+            border: 1px solid var(--accent);
         }
 
         .btn-danger:hover {
-            background: var(--warning);
-            color: white;
-        }
-
-        .btn-success {
-            background: var(--success);
+            background: var(--accent);
             color: white;
         }
 
@@ -198,7 +168,7 @@
             width: 100%;
             padding: 10px;
             border: 1px solid var(--bg-card);
-            background: var(--bg-primary);
+            background: var(--bg-card);
             color: var(--text-primary);
             border-radius: 6px;
             font-size: 0.95rem;
@@ -227,25 +197,30 @@
             flex: 1;
         }
 
+        .player-role-badge {
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+
         .player-remove {
             background: none;
             border: none;
-            color: var(--text-secondary);
+            color: var(--accent);
             cursor: pointer;
             font-size: 1.2rem;
             padding: 0 5px;
         }
 
         .player-remove:hover {
-            color: var(--warning);
+            color: var(--accent-hover);
         }
 
         .game-area {
             background: var(--bg-secondary);
             border-radius: 16px;
             padding: 20px;
-            min-height: 400px;
-            position: relative;
         }
 
         .phase-controls {
@@ -257,28 +232,108 @@
 
         .phase-controls .btn {
             margin-bottom: 0;
-            min-width: 140px;
         }
 
         .timer-display {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: bold;
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             background: var(--bg-card);
             border-radius: 12px;
             margin-bottom: 20px;
             color: var(--accent);
         }
 
-        .timer-display.urgent {
-            color: var(--warning);
-            animation: urgent-pulse 1s infinite;
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        @keyframes urgent-pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+        .player-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .player-card.selected {
+            border-color: var(--accent);
+        }
+
+        .player-card.dead {
+            opacity: 0.5;
+            filter: grayscale(0.8);
+        }
+
+        .player-card.dead::after {
+            content: '☠️';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+        }
+
+        .player-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .player-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--town));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .player-card-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .player-role {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .player-status {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .role-select {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--accent);
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 10px;
+            cursor: pointer;
         }
 
         .action-buttons {
@@ -291,65 +346,7 @@
         .action-buttons .btn {
             flex: 1;
             margin-bottom: 0;
-            min-width: 140px;
-        }
-
-        .players-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .player-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-            text-align: center;
-        }
-
-        .player-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-
-        .player-card.selected {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 10px var(--accent);
-        }
-
-        .player-card.dead {
-            opacity: 0.5;
-            filter: grayscale(0.8);
-        }
-
-        .player-card-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-        }
-
-        .player-card-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--town));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        .player-card-role {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            padding: 4px 8px;
-            border-radius: 4px;
-            display: inline-block;
+            min-width: 120px;
         }
 
         .notes-area {
@@ -360,8 +357,8 @@
 
         .notes-area textarea {
             width: 100%;
-            min-height: 120px;
-            background: var(--bg-primary);
+            min-height: 150px;
+            background: var(--bg-secondary);
             border: 1px solid var(--bg-card);
             color: var(--text-primary);
             padding: 10px;
@@ -380,26 +377,14 @@
             border-radius: 12px;
             padding: 15px;
             margin-top: 20px;
-            max-height: 250px;
+            max-height: 300px;
             overflow-y: auto;
         }
 
         .log-entry {
-            padding: 10px;
+            padding: 8px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
             font-size: 0.9rem;
-            animation: slide-in 0.3s ease-out;
-        }
-
-        @keyframes slide-in {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
 
         .log-entry:last-child {
@@ -408,147 +393,180 @@
 
         .log-entry .time {
             color: var(--text-secondary);
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             margin-right: 10px;
         }
 
-        .log-entry.highlight {
-            background: rgba(233, 66, 66, 0.1);
-            border-radius: 6px;
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
+        .modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0,0,0,0.8);
             z-index: 1000;
-            backdrop-filter: blur(4px);
-            animation: fade-in 0.2s ease-out;
+            align-items: center;
+            justify-content: center;
         }
 
-        @keyframes fade-in {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-overlay.active {
+        .modal.active {
             display: flex;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .modal-content {
             background: var(--bg-secondary);
             border-radius: 16px;
             padding: 30px;
             max-width: 500px;
             width: 90%;
-            max-height: 85vh;
+            max-height: 80vh;
             overflow-y: auto;
-            z-index: 1001;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            animation: modal-pop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        @keyframes modal-pop {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -45%) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-
-        .modal.active {
-            display: block;
         }
 
         .modal-header {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             margin-bottom: 20px;
             color: var(--accent);
-            text-align: center;
-            font-weight: bold;
         }
 
-        .modal-body {
-            color: var(--text-secondary);
-            line-height: 1.6;
+        .role-configuration {
+            display: grid;
+            gap: 15px;
             margin-bottom: 20px;
         }
 
-        .modal-actions {
+        .role-config-item {
             display: flex;
-            gap: 10px;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: var(--bg-card);
+            border-radius: 8px;
         }
 
-        .prompt-box {
+        .role-config-item input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid var(--accent);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .winner-announcement {
+            text-align: center;
+            padding: 40px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            display: none;
+        }
+
+        .winner-announcement.active {
+            display: block;
+        }
+
+        .winner-announcement h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .winner-announcement .confetti {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .alive-counts {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .alive-count {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .alive-count.mafia {
+            background: var(--mafia);
+            color: white;
+        }
+
+        .alive-count.town {
+            background: var(--town);
+            color: white;
+        }
+
+        .voting-area {
             background: var(--bg-card);
             border-radius: 12px;
             padding: 20px;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--accent);
+            margin-top: 20px;
+            display: none;
         }
 
-        .prompt-box .prompt-step {
-            font-size: 1rem;
-            margin-bottom: 10px;
-            color: var(--text-primary);
+        .voting-area.active {
+            display: block;
         }
 
-        .prompt-box .prompt-step strong {
-            color: var(--accent);
-        }
-
-        /* Confetti Animation */
-        .confetti {
-            display: inline-block;
-            animation: confetti-fall 3s ease-out forwards;
-        }
-
-        @keyframes confetti-fall {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100px) rotate(720deg);
-                opacity: 0;
-            }
-        }
-
-        .selection-hint {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+        .vote-summary {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
             margin-top: 15px;
-            padding: 10px;
-            background: rgba(233, 66, 66, 0.1);
-            border-radius: 8px;
         }
 
-        .phase-icon {
-            font-size: 3rem;
-            margin-bottom: 10px;
+        .vote-item {
+            padding: 8px 12px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            font-size: 0.9rem;
         }
 
-        .action-highlight {
-            background: rgba(233, 233, 233, 0.1);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .quick-action-btn {
+            padding: 6px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--accent);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .quick-action-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-card);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
         }
     </style>
 </head>
@@ -557,22 +575,30 @@
         <header>
             <h1>🎭 MAFIA MODERATOR</h1>
             <div class="game-status">
-                <div class="status-badge phase" id="phaseDisplay">SETUP</div>
-                <div class="status-badge">👥 <span id="playerCount">0</span> Players</div>
+                <div class="status-badge phase" id="phaseDisplay">Setup</div>
+                <div class="status-badge">👥 Players: <span id="playerCount">0</span></div>
+                <div class="status-badge">🌙 Night: <span id="nightCount">0</span></div>
+                <div class="status-badge">☀️ Day: <span id="dayCount">0</span></div>
+            </div>
+            <div class="alive-counts" id="aliveCounts" style="display: none;">
+                <div class="alive-count mafia">🔴 Mafia: <span id="mafiaAlive">0</span></div>
+                <div class="alive-count town">🔵 Town: <span id="townAlive">0</span></div>
             </div>
         </header>
 
         <div class="main-content">
             <aside class="sidebar">
                 <div class="section-title">⚙️ Setup</div>
-
-                <button class="btn btn-primary" onclick="startGameFlow()">Start Game</button>
-
+                
+                <button class="btn btn-primary" onclick="showRoleModal()">Configure Roles</button>
+                <button class="btn btn-secondary" onclick="assignRoles()">Randomize Roles</button>
+                <button class="btn btn-secondary" onclick="revealAllRoles()">Reveal All</button>
+                
                 <div class="input-group" style="margin-top: 15px;">
                     <label>Add Player</label>
                     <div style="display: flex; gap: 10px;">
-                        <input type="text" id="playerNameInput" placeholder="Enter name..." onkeypress="if(event.key==='Enter'){event.preventDefault();addPlayer()}">
-                        <button class="btn btn-primary" style="margin-bottom: 0; width: auto; min-width: 60px;" onclick="addPlayer()">+</button>
+                        <input type="text" id="playerNameInput" placeholder="Enter name..." onkeypress="if(event.key==='Enter')addPlayer()">
+                        <button class="btn btn-primary" style="margin-bottom: 0; width: auto;" onclick="addPlayer()">+</button>
                     </div>
                 </div>
 
@@ -581,23 +607,52 @@
                 </div>
 
                 <div style="margin-top: 20px;">
-                    <button class="btn btn-danger" onclick="confirmReset()">Reset Game</button>
-                    <button class="btn btn-secondary" onclick="exportGame()">Export</button>
+                    <button class="btn btn-danger" onclick="resetGame()">Reset Game</button>
+                    <button class="btn btn-secondary" onclick="exportGame()">Export Game</button>
                 </div>
             </aside>
 
             <main class="game-area">
-                <!-- Main game area - content changes based on phase -->
-                <div id="gameContent">
-                    <div class="phase-icon" style="font-size: 4rem;">🎮</div>
-                    <div style="text-align: center; color: var(--text-secondary); padding: 20px;">
-                        Add players and click "Start Game" to begin
+                <div class="winner-announcement" id="winnerAnnouncement">
+                    <div class="confetti">🎉</div>
+                    <h2 id="winnerText"></h2>
+                    <button class="btn btn-primary" onclick="resetGame()">New Game</button>
+                </div>
+
+                <div class="phase-controls">
+                    <button class="btn btn-primary" onclick="startNight()">🌙 Night</button>
+                    <button class="btn btn-primary" onclick="startDay()">☀️ Day</button>
+                    <button class="btn btn-secondary" onclick="toggleTimer()">⏱️ Timer</button>
+                </div>
+
+                <div class="timer-display" id="timerDisplay">00:00</div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-danger" onclick="killSelected()">☠️ Kill</button>
+                    <button class="btn btn-secondary" style="background: var(--doctor);" onclick="saveSelected()">💉 Save</button>
+                    <button class="btn btn-secondary" style="background: var(--cop);" onclick="investigateSelected()">🔍 Investigate</button>
+                    <button class="btn btn-secondary" onclick="reviveSelected()">➕ Revive</button>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="quick-action-btn" onclick="toggleRoleVisibility()">👁️ Toggle Role View</button>
+                    <button class="quick-action-btn" onclick="clearSelection()">✖️ Clear Selection</button>
+                </div>
+
+                <div class="players-grid" id="playersGrid">
+                    <!-- Player cards will be rendered here -->
+                </div>
+
+                <div class="voting-area" id="votingArea">
+                    <div class="section-title">🗳️ Day Voting</div>
+                    <div class="vote-summary" id="voteSummary">
+                        <!-- Votes will be tracked here -->
                     </div>
                 </div>
 
                 <div class="notes-area">
                     <div class="section-title">📝 Moderator Notes</div>
-                    <textarea id="modNotes" placeholder="Your notes appear here automatically..." oninput="saveNotes()"></textarea>
+                    <textarea id="modNotes" placeholder="Write your notes here..." oninput="saveNotes()"></textarea>
                 </div>
 
                 <div class="log-area" id="logArea">
@@ -605,88 +660,47 @@
                 </div>
             </main>
         </div>
+    </div>
 
-    <!-- Modal Overlay -->
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal" id="modal">
-            <div class="modal-header" id="modalTitle">Prompt</div>
-            <div class="modal-body" id="modalBody"></div>
-            <div class="modal-actions" id="modalActions"></div>
+    <!-- Role Configuration Modal -->
+    <div class="modal" id="roleModal">
+        <div class="modal-content">
+            <div class="modal-header">⚙️ Role Configuration</div>
+            <div class="role-configuration">
+                <div class="role-config-item">
+                    <span>🔴 Mafia</span>
+                    <input type="number" id="mafiaCount" value="2" min="0">
+                </div>
+                <div class="role-config-item">
+                    <span>🔵 Town</span>
+                    <input type="number" id="townCount" value="4" min="0">
+                </div>
+                <div class="role-config-item">
+                    <span>💉 Doctor</span>
+                    <input type="number" id="doctorCount" value="1" min="0" max="1">
+                </div>
+                <div class="role-config-item">
+                    <span>🔍 Cop</span>
+                    <input type="number" id="copCount" value="1" min="0" max="1">
+                </div>
+                <div class="role-config-item">
+                    <span>🃏 Jester</span>
+                    <input type="number" id="jesterCount" value="0" min="0" max="1">
+                </div>
+                <div class="role-config-item">
+                    <span>👑 Godfather</span>
+                    <input type="number" id="godfatherCount" value="0" min="0" max="1">
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="saveRoleConfig()">Save Configuration</button>
+            <button class="btn btn-secondary" onclick="hideRoleModal()">Cancel</button>
         </div>
     </div>
 
     <script>
-        // ============================================
-        // SOUND SYSTEM
-        // ============================================
-
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const sounds = {};
-
-        function playSound(type) {
-            const soundConfigs = {
-                'click': { freq: 800, duration: 0.05 },
-                'add': { freq: 600, duration: 0.1 },
-                'remove': { freq: 400, duration: 0.1 },
-                'success': { freq: 523, duration: 0.15 },
-                'night': { freq: 200, duration: 0.3 },
-                'day': { freq: 300, duration: 0.2 },
-                'kill': { freq: 150, duration: 0.25 },
-                'save': { freq: 400, duration: 0.15 },
-                'investigate': { freq: 700, duration: 0.2 },
-                'win': { freq: 400, duration: 0.5, notes: [523, 659, 784] },
-                'lose': { freq: 300, duration: 0.4, notes: [400, 300, 200] }
-            };
-
-            const config = soundConfigs[type] || { freq: 440, duration: 0.1 };
-
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-
-            oscillator.frequency.value = config.freq;
-            oscillator.type = 'sine';
-            gainNode.gain.value = 0.3;
-
-            oscillator.start();
-
-            const now = audioContext.currentTime;
-            gainNode.gain.exponentialRampToValueAtTime(0, now + config.duration);
-
-            // Add harmonics for richer sound
-            if (config.notes) {
-                config.notes.forEach((note, i) => {
-                    const osc = audioContext.createOscillator();
-                    const gain = audioContext.createGain();
-                    osc.connect(gain);
-                    gain.connect(audioContext.destination);
-                    osc.frequency.value = note;
-                    osc.type = 'sine';
-                    gain.gain.value = 0.1;
-                    osc.start(now + (i * 0.05));
-                    gain.gain.exponentialRampToValueAtTime(0, now + config.duration);
-                });
-            }
-
-            oscillator.stop(now + config.duration);
-        }
-
-        function resumeAudio() {
-            if (audioContext.state === 'suspended') {
-                audioContext.resume();
-            }
-        }
-
-        // ============================================
-        // GAME STATE
-        // ============================================
-
+        // Game State
         let gameState = {
             phase: 'setup',
-            step: 0,
-            subStep: 0,
             players: [],
             nightCount: 0,
             dayCount: 0,
@@ -696,9 +710,10 @@
             timerSeconds: 0,
             timerInterval: null,
             notes: '',
+            log: [],
             votes: {},
-            nightActions: { kill: null, save: null, investigate: null },
-            doctorSavedTonight: false
+            currentNightKill: null,
+            currentNightSave: null
         };
 
         // Role colors
@@ -715,155 +730,14 @@
         // Avatar emojis
         const avatars = ['👤', '🧑', '👨', '👩', '🧒', '👦', '👧', '👴', '👵', '🧓', '🧔', '👱', '🧑‍🦱', '🧑‍🦰', '🧑‍🦳', '🧑‍🦲'];
 
-        // ============================================
-        // PHASE FLOWS
-        // ============================================
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromStorage();
+            updateTimerDisplay();
+            render();
+        });
 
-        const phaseFlows = {
-            setup: {
-                steps: [
-                    { action: 'addPlayers', prompt: 'Add players to your game (minimum 3 recommended)', proceed: 'players.length >= 3' }
-                ],
-                canProceed: () => gameState.players.length >= 3
-            },
-            night: {
-                steps: [
-                    {
-                        action: 'mafiaKill',
-                        prompt: (ctx) => `🔴 MAFIA: Choose who to kill tonight. Click on a player card.`,
-                        execute: (player) => {
-                            gameState.nightActions.kill = player;
-                            playSound('kill');
-                            updateGameContent();
-                        }
-                    },
-                    {
-                        action: 'doctorSave',
-                        prompt: (ctx) => `💉 DOCTOR: Choose someone to save tonight. Click on a player card.`,
-                        execute: (player) => {
-                            gameState.nightActions.save = player;
-                            gameState.doctorSavedTonight = true;
-                            playSound('save');
-                            updateGameContent();
-                        }
-                    },
-                    {
-                        action: 'copInvestigate',
-                        prompt: (ctx) => `🔍 COP: Choose someone to investigate. Click on a player card.`,
-                        execute: (player) => {
-                            gameState.nightActions.investigate = player;
-                            playSound('investigate');
-                            updateGameContent();
-                        }
-                    },
-                    {
-                        action: 'continueToDay',
-                        prompt: () => {
-                            let actions = [];
-                            if (gameState.nightActions.kill) actions.push('Mafia killed someone');
-                            if (gameState.nightActions.save) actions.push('Doctor saved someone');
-                            if (gameState.nightActions.investigate) actions.push('Cop investigated someone');
-                            if (gameState.doctorSavedTonight) actions.push('Doctor blocked a kill');
-                            return `☀️ READY FOR DAY\n\nNight actions complete:\n${actions.join('\n') || 'No actions'}\n\nProceed to day phase?`;
-                        }
-                    }
-                ],
-                getCurrentStep: () => {
-                    if (gameState.nightActions.kill) return 1;
-                    if (gameState.nightActions.save) return 2;
-                    if (gameState.nightActions.investigate) return 3;
-                    return 4;
-                },
-                canProceed: () => {
-                    const killSet = gameState.nightActions.kill !== null;
-                    const saveSet = gameState.nightActions.save !== null;
-                    const investSet = gameState.nightActions.investigate !== null;
-                    // At least kill must be set, optionally others
-                    return killSet;
-                }
-            },
-            day: {
-                steps: [
-                    {
-                        action: 'startDiscussion',
-                        prompt: () => `☀️ DAY ${gameState.dayCount}: Discussion Time\nLet everyone discuss for ${gameState.players.filter(p=>p.alive).length} minutes.\n\nClick when ready to proceed to voting.`,
-                        execute: () => {
-                            playSound('day');
-                            updateGameContent();
-                        }
-                    },
-                    {
-                        action: 'startVoting',
-                        prompt: (ctx) => {
-                            const alivePlayers = gameState.players.filter(p => p.alive);
-                            return `🗳️ VOTING TIME\n\nAlive players: ${alivePlayers.length}\n\nClick on players to cast votes.\nYou can vote multiple times - last vote counts.`;
-                        },
-                        execute: () => {
-                            playSound('click');
-                            updateGameContent();
-                        }
-                    },
-                    {
-                        action: 'eliminatePlayer',
-                        prompt: (ctx) => {
-                            const player = gameState.players.find(p => p.id === gameState.selectedPlayer);
-                            return `⚠️ Confirm Elimination\n\nEliminate ${player ? player.name : 'selected player'}?\nThis action cannot be undone.`;
-                        },
-                        execute: (confirmed) => {
-                            if (confirmed && gameState.selectedPlayer) {
-                                const player = gameState.players.find(p => p.id === gameState.selectedPlayer);
-                                if (player && player.alive) {
-                                    player.alive = false;
-                                    playSound('remove');
-                                    addLog(`☠️ ${player.name} was eliminated by vote`, true);
-                                    checkWinCondition();
-                                }
-                            }
-                            gameState.selectedPlayer = null;
-                            updateGameContent();
-                        }
-                    },
-                    {
-                        action: 'resolveVotes',
-                        prompt: () => {
-                            const voteCounts = {};
-                            Object.values(gameState.votes).forEach(v => {
-                                const target = gameState.players.find(p => p.id === v);
-                                if (target && target.alive) {
-                                    voteCounts[target.name] = (voteCounts[target.name] || 0) + 1;
-                                }
-                            });
-
-                            let summary = 'Vote Results:\n';
-                            for (const [name, count] of Object.entries(voteCounts)) {
-                                summary += `  ${name}: ${count} vote${count > 1 ? 's' : ''}\n`;
-                            }
-                            return summary;
-                        },
-                        execute: () => {
-                            playSound('success');
-                            gameState.votes = {};
-                            gameState.step = 0;
-                            updateGameContent();
-                        }
-                    },
-                    {
-                        action: 'continueToNight',
-                        prompt: () => '☀️ Day Complete\n\nReady for night phase?',
-                        execute: () => {
-                            playSound('success');
-                        }
-                    }
-                ],
-                getCurrentStep: () => gameState.step,
-                canProceed: () => gameState.step > 0
-            }
-        };
-
-        // ============================================
-        // STORAGE FUNCTIONS
-        // ============================================
-
+        // Storage Functions
         function saveToStorage() {
             localStorage.setItem('mafiaGame', JSON.stringify(gameState));
         }
@@ -872,32 +746,28 @@
             const saved = localStorage.getItem('mafiaGame');
             if (saved) {
                 gameState = JSON.parse(saved);
-                // Reset timer interval
+                // Reset timer interval since it can't be persisted
                 gameState.timerInterval = null;
                 gameState.timerRunning = false;
             }
         }
 
-        // ============================================
-        // PLAYER FUNCTIONS
-        // ============================================
-
+        // Player Functions
         function addPlayer() {
             const input = document.getElementById('playerNameInput');
             const name = input.value.trim();
-
+            
             if (!name) return;
-
-            playSound('add');
-
+            
             gameState.players.push({
                 id: Date.now(),
                 name: name,
                 role: 'Town',
                 alive: true,
-                avatar: avatars[Math.floor(Math.random() * avatars.length)]
+                avatar: avatars[Math.floor(Math.random() * avatars.length)],
+                investigated: false
             });
-
+            
             input.value = '';
             saveToStorage();
             render();
@@ -906,98 +776,323 @@
 
         function removePlayer(id) {
             const player = gameState.players.find(p => p.id === id);
-            if (player) {
-                gameState.players = gameState.players.filter(p => p.id !== id);
-                saveToStorage();
-                render();
-                addLog(`Player "${player.name}" removed`);
-                playSound('remove');
-            }
-        }
-
-        function selectPlayer(id) {
-            resumeAudio();
-            if (gameState.selectedPlayer === id) {
-                gameState.selectedPlayer = null;
-            } else {
-                gameState.selectedPlayer = id;
-                playSound('click');
-            }
-            render();
-        }
-
-        // ============================================
-        // PHASE MANAGEMENT
-        // ============================================
-
-        function startGameFlow() {
-            if (gameState.players.length < 3) {
-                showModal('Not Enough Players', 'Please add at least 3 players to start.\n\nCurrent players: ' + gameState.players.length, false);
-                return;
-            }
-
-            playSound('success');
-            gameState.phase = 'night';
-            gameState.step = 1;
-            gameState.subStep = 0;
+            gameState.players = gameState.players.filter(p => p.id !== id);
             saveToStorage();
-            updateGameContent();
+            render();
+            addLog(`Player "${player.name}" removed`);
         }
 
         function assignRoles() {
-            if (gameState.players.length < 3) {
-                showModal('Not Enough Players', 'Please add at least 3 players before assigning roles.\n\nCurrent players: ' + gameState.players.length, false);
+            if (gameState.players.length === 0) {
+                alert('Add players first!');
                 return;
             }
 
-            // Count current special roles
-            const mafiaCount = parseInt(prompt('How many Mafia? (0-' + (gameState.players.length - 2) + ')') || '2');
-            const doctorCount = prompt('How many Doctors? (0-1)') || '1';
-            const copCount = prompt('How many Cops? (0-1)') || '1';
+            // Get role counts
+            const mafiaCount = parseInt(document.getElementById('mafiaCount').value);
+            const townCount = parseInt(document.getElementById('townCount').value);
+            const doctorCount = parseInt(document.getElementById('doctorCount').value);
+            const copCount = parseInt(document.getElementById('copCount').value);
+            const jesterCount = parseInt(document.getElementById('jesterCount').value);
+            const godfatherCount = parseInt(document.getElementById('godfatherCount').value);
 
-            const totalSpecial = parseInt(mafiaCount) + parseInt(doctorCount) + parseInt(copCount);
-            const townCount = gameState.players.length - totalSpecial;
+            const totalRoles = mafiaCount + townCount + doctorCount + copCount + jesterCount + godfatherCount;
 
-            if (townCount < 0) {
-                showModal('Invalid Roles', 'Too many special roles! Town count would be negative.', false);
+            if (totalRoles !== gameState.players.length) {
+                alert(`Role count (${totalRoles}) must match player count (${gameState.players.length})`);
                 return;
             }
 
             // Create role pool
             let rolePool = [];
-            for (let i = 0; i < parseInt(mafiaCount); i++) rolePool.push('Mafia');
-            for (let i = 0; i < parseInt(doctorCount); i++) rolePool.push('Doctor');
-            for (let i = 0; i < parseInt(copCount); i++) rolePool.push('Cop');
+            for (let i = 0; i < mafiaCount; i++) rolePool.push('Mafia');
             for (let i = 0; i < townCount; i++) rolePool.push('Town');
+            for (let i = 0; i < doctorCount; i++) rolePool.push('Doctor');
+            for (let i = 0; i < copCount; i++) rolePool.push('Cop');
+            for (let i = 0; i < jesterCount; i++) rolePool.push('Jester');
+            for (let i = 0; i < godfatherCount; i++) rolePool.push('Godfather');
 
-            // Shuffle and assign
+            // Shuffle
             rolePool = rolePool.sort(() => Math.random() - 0.5);
 
+            // Assign roles
             gameState.players.forEach((player, index) => {
-                player.role = rolePool[index] || 'Town';
+                player.role = rolePool[index];
                 player.alive = true;
+                player.investigated = false;
             });
 
-            gameState.phase = 'night';
-            gameState.step = 1;
-            gameState.showRoles = true;
+            gameState.phase = 'setup';
             saveToStorage();
-            playSound('success');
-            updateGameContent();
+            render();
+            addLog('Roles randomly assigned');
         }
 
-        // ============================================
-        // LOG FUNCTIONS
-        // ============================================
+        function revealAllRoles() {
+            gameState.showRoles = !gameState.showRoles;
+            saveToStorage();
+            render();
+        }
 
-        function addLog(message, highlight = false) {
+        function toggleRoleVisibility() {
+            gameState.showRoles = !gameState.showRoles;
+            saveToStorage();
+            render();
+        }
+
+        // Phase Functions
+        function startNight() {
+            if (gameState.players.length === 0) {
+                alert('Add players first!');
+                return;
+            }
+            
+            gameState.phase = 'night';
+            gameState.nightCount++;
+            gameState.currentNightKill = null;
+            gameState.currentNightSave = null;
+            saveToStorage();
+            render();
+            addLog(`☀️ Night ${gameState.nightCount} begins`);
+        }
+
+        function startDay() {
+            if (gameState.players.length === 0) {
+                alert('No players in game!');
+                return;
+            }
+            
+            gameState.phase = 'day';
+            gameState.dayCount++;
+            gameState.votes = {};
+            
+            // Process night results
+            let victimKilled = false;
+            if (gameState.currentNightKill) {
+                if (gameState.currentNightKill === gameState.currentNightSave) {
+                    addLog(`💉 Doctor saved the victim! No one died.`);
+                } else {
+                    const victim = gameState.players.find(p => p.id === gameState.currentNightKill);
+                    if (victim && victim.alive) {
+                        victim.alive = false;
+                        addLog(`☠️ ${victim.name} was killed by Mafia (${victim.role})`);
+                        victimKilled = true;
+                    }
+                }
+            }
+            
+            gameState.currentNightKill = null;
+            gameState.currentNightSave = null;
+            
+            saveToStorage();
+            render();
+            
+            if (victimKilled) {
+                checkWinCondition();
+            }
+            
+            addLog(`🌙 Day ${gameState.dayCount} begins`);
+        }
+
+        // Action Functions
+        function killSelected() {
+            if (!gameState.selectedPlayer) {
+                alert('Select a player first');
+                return;
+            }
+
+            const player = gameState.players.find(p => p.id === gameState.selectedPlayer);
+            
+            if (!player.alive) {
+                alert('Player is already dead');
+                return;
+            }
+            
+            if (gameState.phase === 'night') {
+                gameState.currentNightKill = player.id;
+                addLog(`🔴 Mafia targeting: ${player.name}`);
+                saveToStorage();
+                return;
+            }
+            
+            if (gameState.phase !== 'day') {
+                alert('Elimination is only available during day phase');
+                return;
+            }
+            
+            player.alive = false;
+            addLog(`☠️ ${player.name} eliminated (${player.role})`);
+            saveToStorage();
+            render();
+            checkWinCondition();
+        }
+
+        function saveSelected() {
+            if (!gameState.selectedPlayer) {
+                alert('Select a player to save');
+                return;
+            }
+
+            const player = gameState.players.find(p => p.id === gameState.selectedPlayer);
+            
+            if (!player.alive) {
+                alert('Cannot save a dead player');
+                return;
+            }
+            
+            if (gameState.phase !== 'night') {
+                alert('Doctor can only save during night phase');
+                return;
+            }
+            
+            gameState.currentNightSave = player.id;
+            addLog(`💉 Doctor targeting: ${player.name}`);
+            saveToStorage();
+        }
+
+        function investigateSelected() {
+            if (!gameState.selectedPlayer) {
+                alert('Select a player to investigate');
+                return;
+            }
+
+            const player = gameState.players.find(p => p.id === gameState.selectedPlayer);
+            
+            if (!player.alive) {
+                alert('Cannot investigate a dead player');
+                return;
+            }
+            
+            if (gameState.phase !== 'night') {
+                alert('Cop can only investigate during night phase');
+                return;
+            }
+            
+            player.investigated = true;
+            
+            let result = player.role === 'Mafia' || player.role === 'Godfather' ? 'Mafia' : 'Not Mafia';
+            addLog(`🔍 Cop investigated ${player.name}: ${result}`);
+            saveToStorage();
+            render();
+        }
+
+        function reviveSelected() {
+            if (!gameState.selectedPlayer) {
+                alert('Select a player first');
+                return;
+            }
+
+            const player = gameState.players.find(p => p.id === gameState.selectedPlayer);
+            
+            if (player.alive) {
+                alert('Player is already alive');
+                return;
+            }
+            
+            player.alive = true;
+            addLog(`➕ ${player.name} revived`);
+            saveToStorage();
+            render();
+        }
+
+        // Timer Functions
+        function toggleTimer() {
+            if (gameState.timerRunning) {
+                clearInterval(gameState.timerInterval);
+                gameState.timerRunning = false;
+            } else {
+                gameState.timerRunning = true;
+                gameState.timerInterval = setInterval(() => {
+                    gameState.timerSeconds++;
+                    updateTimerDisplay();
+                }, 1000);
+            }
+            saveToStorage();
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(gameState.timerSeconds / 60);
+            const seconds = gameState.timerSeconds % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        // Selection Functions
+        function selectPlayer(id) {
+            if (gameState.selectedPlayer === id) {
+                gameState.selectedPlayer = null;
+            } else {
+                gameState.selectedPlayer = id;
+            }
+            render();
+        }
+
+        function clearSelection() {
+            gameState.selectedPlayer = null;
+            saveToStorage();
+            render();
+        }
+
+        // Win Condition
+        function checkWinCondition() {
+            const aliveMafia = gameState.players.filter(p => p.alive && (p.role === 'Mafia' || p.role === 'Godfather')).length;
+            const aliveTown = gameState.players.filter(p => p.alive && p.role !== 'Mafia' && p.role !== 'Godfather').length;
+
+            if (aliveMafia === 0) {
+                showWinner('Town');
+            } else if (aliveMafia >= aliveTown) {
+                showWinner('Mafia');
+            }
+        }
+
+        function showWinner(winner) {
+            gameState.phase = 'ended';
+            gameState.showRoles = true;
+            saveToStorage();
+            render();
+            
+            const announcement = document.getElementById('winnerAnnouncement');
+            const winnerText = document.getElementById('winnerText');
+            
+            if (winner === 'Town') {
+                winnerText.textContent = '🎉 TOWN WINS! 🎉';
+                winnerText.style.color = 'var(--town)';
+            } else {
+                winnerText.textContent = '🎭 MAFIA WINS! 🎭';
+                winnerText.style.color = 'var(--mafia)';
+            }
+            
+            announcement.classList.add('active');
+            addLog(`🏆 Game Over! ${winner} wins!`);
+        }
+
+        // Modal Functions
+        function showRoleModal() {
+            document.getElementById('roleModal').classList.add('active');
+        }
+
+        function hideRoleModal() {
+            document.getElementById('roleModal').classList.remove('active');
+        }
+
+        function saveRoleConfig() {
+            hideRoleModal();
+        }
+
+        // Notes Functions
+        function saveNotes() {
+            gameState.notes = document.getElementById('modNotes').value;
+            saveToStorage();
+        }
+
+        // Log Functions
+        function addLog(message) {
             const entry = {
                 time: new Date().toLocaleTimeString(),
-                message: message,
-                highlight: highlight
+                message: message
             };
             gameState.log.unshift(entry);
-            if (gameState.log.length > 150) {
+            if (gameState.log.length > 100) {
                 gameState.log.pop();
             }
             saveToStorage();
@@ -1007,287 +1102,99 @@
         function renderLog() {
             const logArea = document.getElementById('logArea');
             logArea.innerHTML = gameState.log.map(entry => `
-                <div class="log-entry${entry.highlight ? ' highlight' : ''}">
+                <div class="log-entry">
                     <span class="time">${entry.time}</span>
                     ${entry.message}
                 </div>
             `).join('');
-
-            // Auto-scroll to top
-            logArea.scrollTop = 0;
         }
 
-        // ============================================
-        // MODAL FUNCTIONS
-        // ============================================
-
-        function showModal(title, message, showCancel = true) {
-            const overlay = document.getElementById('modalOverlay');
-            const titleEl = document.getElementById('modalTitle');
-            const bodyEl = document.getElementById('modalBody');
-            const actionsEl = document.getElementById('modalActions');
-
-            titleEl.textContent = title;
-            bodyEl.innerHTML = message;
-
-            actionsEl.innerHTML = showCancel
-                ? '<button class="btn btn-secondary" onclick="closeModal()">Cancel</button>'
-                : '<button class="btn btn-success" onclick="closeModal()">OK</button>';
-
-            overlay.classList.add('active');
-            resumeAudio();
+        // Render Functions
+        function render() {
+            renderPlayerList();
+            renderPlayersGrid();
+            renderStatus();
+            renderNotes();
+            renderLog();
         }
 
-        function closeModal() {
-            const overlay = document.getElementById('modalOverlay');
-            overlay.classList.remove('active');
-            gameState.selectedPlayer = null;
-        }
-
-        function showConfirm(title, message, onConfirm) {
-            const overlay = document.getElementById('modalOverlay');
-            const titleEl = document.getElementById('modalTitle');
-            const bodyEl = document.getElementById('modalBody');
-            const actionsEl = document.getElementById('modalActions');
-
-            titleEl.textContent = title;
-            bodyEl.innerHTML = message;
-
-            actionsEl.innerHTML = `
-                <button class="btn btn-danger" onclick="closeModal()">Cancel</button>
-                <button class="btn btn-success" onclick="{
-                    closeModal();
-                    ${onConfirm.toString()}
-                }">Confirm</button>
-            `;
-
-            overlay.classList.add('active');
-            resumeAudio();
-        }
-
-        // ============================================
-        // GAME CONTENT RENDERER
-        // ============================================
-
-        function updateGameContent() {
-            const content = document.getElementById('gameContent');
-            const flow = phaseFlows[gameState.phase];
-
-            if (!flow) {
-                content.innerHTML = `
-                    <div style="text-align: center; color: var(--text-secondary); padding: 40px;">
-                        <div class="phase-icon">❌</div>
-                        <div>Invalid phase state</div>
-                    </div>
-                `;
-                return;
-            }
-
-            const currentStep = flow.getCurrentStep();
-            const currentPrompt = flow.steps[currentStep];
-
-            let promptHTML = currentPrompt.prompt;
-
-            // If prompt is a function, call it for dynamic content
-            if (typeof currentPrompt.prompt === 'function') {
-                promptHTML = currentPrompt.prompt({
-                    players: gameState.players.filter(p => p.alive),
-                    selectedPlayer: gameState.players.find(p => p.id === gameState.selectedPlayer)
-                });
-            }
-
-            let actionButtons = '';
-
-            // Add action buttons based on available actions
-            const nextStepIndex = flow.steps.findIndex((s, i) => i > currentStep);
-
-            if (nextStepIndex !== -1 && flow.steps[nextStepIndex]) {
-                const nextAction = flow.steps[nextStepIndex];
-                actionButtons = `
-                    <button class="btn btn-success" onclick="executeStep(${nextStepIndex})">
-                        ${nextAction.action === 'continueToDay' ? '☀️ Begin Day' : 'Next →'}
-                    </button>
-                `;
-            }
-
-            content.innerHTML = `
-                <div class="phase-icon">${getPhaseIcon(gameState.phase, gameState.step)}</div>
-                <div class="prompt-box">
-                    <div class="prompt-step">Step ${currentStep + 1}/${flow.steps.length}</div>
-                    ${promptHTML}
+        function renderPlayerList() {
+            const list = document.getElementById('playerList');
+            list.innerHTML = gameState.players.map(player => `
+                <div class="player-item">
+                    <span class="player-name">${player.avatar} ${player.name}</span>
+                    <span class="player-role-badge" style="background: ${roleColors[player.role]}; color: ${['Mafia', 'Godfather'].includes(player.role) ? 'white' : 'black'}">
+                        ${gameState.showRoles ? player.role : '???'}
+                    </span>
+                    <button class="player-remove" onclick="removePlayer(${player.id})">×</button>
                 </div>
-                ${actionButtons}
-                <div style="margin-top: 20px;">
-                    ${renderPlayers()}
-                    ${renderAliveCounts()}
-                </div>
-                <div style="margin-top: 20px; text-align: center; color: var(--text-secondary); font-size: 0.85rem;">
-                    Press <kbd style="background: var(--bg-card); padding: 4px 8px; border-radius: 4px;">Space</kbd> to select player
-                </div>
-            `;
-
-            // Update phase display
-            document.getElementById('phaseDisplay').textContent = gameState.phase.toUpperCase();
+            `).join('');
         }
 
-        function getPhaseIcon(phase, step) {
-            const icons = {
-                night: ['🌙', '🔴', '💉', '🔍'],
-                day: ['☀️', '🗳️', '💬'],
-                setup: ['⚙️', '👥', '🎲']
-            };
-
-            if (phase === 'night' && step > 0) {
-                return icons.night[step - 1] || '🌙';
-            } else if (phase === 'day') {
-                return icons.day[step - 1] || '☀️';
-            } else {
-                return icons.setup ? icons.setup[step - 1] || '⚙️' : '🎮';
-            }
-        }
-
-        function executeStep(stepIndex) {
-            const flow = phaseFlows[gameState.phase];
-            const step = flow.steps[stepIndex];
-
-            if (step && step.execute) {
-                const result = step.execute();
-                if (result !== false) {
-                    gameState.step++;
-                    gameState.subStep = 0;
-                    saveToStorage();
-                    updateGameContent();
-                }
-            } else {
-                // Just advance to next step
-                gameState.step++;
-                gameState.subStep = 0;
-                saveToStorage();
-                updateGameContent();
-            }
-        }
-
-        function renderPlayers() {
-            if (gameState.players.length === 0) {
-                return '<div class="selection-hint">No players yet</div>';
-            }
-
-            const playersHTML = gameState.players.map(player => {
-                const isSelected = player.id === gameState.selectedPlayer ? 'selected' : '';
-                const isDead = !player.alive ? 'dead' : '';
-                const showRole = gameState.showRoles ? player.role : '???';
-                const opacity = player.alive ? '' : ' style="opacity: 0.5;"';
-
-                return `
-                    <div class="player-card ${isSelected} ${isDead}"
-                         onclick="${player.alive ? `selectPlayer(${player.id})` : ''}"
-                         ${player.alive ? `style="cursor: pointer;"` : ''}>
-                        <div class="player-card-avatar">${player.avatar}</div>
+        function renderPlayersGrid() {
+            const grid = document.getElementById('playersGrid');
+            grid.innerHTML = gameState.players.map(player => `
+                <div class="player-card ${player.id === gameState.selectedPlayer ? 'selected' : ''} ${!player.alive ? 'dead' : ''}" 
+                     onclick="selectPlayer(${player.id})">
+                    <div class="player-card-header">
+                        <div class="player-avatar">${player.avatar}</div>
                         <div class="player-card-name">${player.name}</div>
-                        <div class="player-card-role">${showRole}</div>
-                        ${player.alive ? '' : '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2rem;">☠️</div>'}
                     </div>
-                `;
-            });
-
-            return `<div class="players-grid">${playersHTML.join('')}</div>`;
-        }
-
-        function renderAliveCounts() {
-            const aliveMafia = gameState.players.filter(p => p.alive && (p.role === 'Mafia' || p.role === 'Godfather')).length;
-            const aliveTown = gameState.players.filter(p => p.alive && p.role !== 'Mafia' && p.role !== 'Godfather')).length;
-
-            if (aliveMafia + aliveTown === 0) return '';
-
-            return `
-                <div style="text-align: center; margin-top: 20px;">
-                    <span style="color: var(--mafia); font-weight: bold;">🔴 ${aliveMafia}</span>
-                    <span style="color: var(--text-secondary);"> vs </span>
-                    <span style="color: var(--town); font-weight: bold;">🔵 ${aliveTown}</span>
+                    <div class="player-role" style="background: ${roleColors[player.role]}; color: ${['Mafia', 'Godfather'].includes(player.role) ? 'white' : 'black'}">
+                        ${gameState.showRoles ? player.role : '???'}
+                        ${player.investigated ? ' 🔍' : ''}
+                    </div>
+                    <div class="player-status">
+                        ${player.alive ? '✅ Alive' : '☠️ Dead'}
+                    </div>
                 </div>
-            `;
+            `).join('');
         }
 
-        // ============================================
-        // WIN CONDITION
-        // ============================================
-
-        function checkWinCondition() {
+        function renderStatus() {
+            document.getElementById('phaseDisplay').textContent = gameState.phase.charAt(0).toUpperCase() + gameState.phase.slice(1);
+            document.getElementById('playerCount').textContent = gameState.players.length;
+            document.getElementById('nightCount').textContent = gameState.nightCount;
+            document.getElementById('dayCount').textContent = gameState.dayCount;
+            
+            // Alive counts
             const aliveMafia = gameState.players.filter(p => p.alive && (p.role === 'Mafia' || p.role === 'Godfather')).length;
-            const aliveTown = gameState.players.filter(p => p.alive && p.role !== 'Mafia' && p.role !== 'Godfather')).length;
-
-            if (aliveMafia === 0) {
-                gameState.phase = 'gameover';
-                gameState.step = 0;
-                saveToStorage();
-                showWinnerModal('TOWN', 'All Mafia members have been eliminated!');
-            } else if (aliveMafia >= aliveTown) {
-                gameState.phase = 'gameover';
-                gameState.step = 0;
-                saveToStorage();
-                showWinnerModal('MAFIA', 'Mafia outnumber or equal the Town!');
+            const aliveTown = gameState.players.filter(p => p.alive && p.role !== 'Mafia' && p.role !== 'Godfather').length;
+            
+            document.getElementById('mafiaAlive').textContent = aliveMafia;
+            document.getElementById('townAlive').textContent = aliveTown;
+            
+            const aliveCounts = document.getElementById('aliveCounts');
+            if (gameState.players.length > 0) {
+                aliveCounts.style.display = 'flex';
+            }
+            
+            // Voting area
+            const votingArea = document.getElementById('votingArea');
+            if (gameState.phase === 'day') {
+                votingArea.classList.add('active');
+            } else {
+                votingArea.classList.remove('active');
+            }
+            
+            // Winner announcement
+            const winnerAnnouncement = document.getElementById('winnerAnnouncement');
+            if (gameState.phase === 'ended') {
+                winnerAnnouncement.classList.add('active');
+            } else {
+                winnerAnnouncement.classList.remove('active');
             }
         }
 
-        function showWinnerModal(winner, reason) {
-            const overlay = document.getElementById('modalOverlay');
-            const titleEl = document.getElementById('modalTitle');
-            const bodyEl = document.getElementById('modalBody');
-            const actionsEl = document.getElementById('modalActions');
-
-            const isTown = winner === 'TOWN';
-            const emoji = isTown ? '🎉' : '🎭';
-            const bgColor = isTown ? 'var(--town)' : 'var(--mafia)';
-
-            titleEl.textContent = '🏆 GAME OVER';
-            bodyEl.innerHTML = `
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <span style="font-size: 4rem;">${emoji}</span>
-                </div>
-                <div class="action-highlight">
-                    <h3 style="color: ${bgColor};">${winner} WINS!</h3>
-                    <p>${reason}</p>
-                </div>
-                <div class="prompt-box">
-                    <div class="prompt-step">Final Stats:</div>
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; text-align: center;">
-                        <div>
-                            <div style="font-size: 2rem; margin-bottom: 5px;">🌙</div>
-                            <div style="font-size: 1.5rem; color: var(--text-secondary);">Night Phases</div>
-                            <div style="font-size: 2rem; font-weight: bold; color: var(--accent);">${gameState.nightCount}</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 2rem; margin-bottom: 5px;">☀️</div>
-                            <div style="font-size: 1.5rem; color: var(--text-secondary);">Day Phases</div>
-                            <div style="font-size: 2rem; font-weight: bold; color: var(--accent);">${gameState.dayCount}</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            actionsEl.innerHTML = `
-                <button class="btn btn-primary" onclick="resetGame(); closeModal();">New Game</button>
-            `;
-
-            overlay.classList.add('active');
-            playSound(winner === 'TOWN' ? 'win' : 'lose');
+        function renderNotes() {
+            document.getElementById('modNotes').value = gameState.notes || '';
         }
 
-        // ============================================
-        // UTILITY FUNCTIONS
-        // ============================================
-
-        function saveNotes() {
-            gameState.notes = document.getElementById('modNotes').value;
-            saveToStorage();
-        }
-
-        function confirmReset() {
-            showConfirm('Reset Game', 'All progress will be lost. Are you sure?', () => {
+        // Reset Game
+        function resetGame() {
+            if (confirm('Are you sure you want to reset the game?')) {
                 gameState = {
                     phase: 'setup',
-                    step: 0,
-                    subStep: 0,
                     players: [],
                     nightCount: 0,
                     dayCount: 0,
@@ -1297,115 +1204,28 @@
                     timerSeconds: 0,
                     timerInterval: null,
                     notes: '',
+                    log: [],
                     votes: {},
-                    nightActions: { kill: null, save: null, investigate: null },
-                    doctorSavedTonight: false,
-                    log: []
+                    currentNightKill: null,
+                    currentNightSave: null
                 };
                 saveToStorage();
-                playSound('success');
                 render();
-                addLog('Game reset', true);
-                closeModal();
-                document.getElementById('playerList').innerHTML = '';
-                document.getElementById('gameContent').innerHTML = `
-                    <div class="phase-icon" style="font-size: 4rem;">🎮</div>
-                    <div style="text-align: center; color: var(--text-secondary); padding: 20px;">
-                        Add players and click "Start Game" to begin
-                    </div>
-                `;
-                document.getElementById('phaseDisplay').textContent = 'SETUP';
-            });
+                addLog('Game reset');
+            }
         }
 
+        // Export Game
         function exportGame() {
             const data = JSON.stringify(gameState, null, 2);
             const blob = new Blob([data], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'mafia-game-' + new Date().toISOString().slice(0, 10) + '.json';
+            a.download = 'mafia-game.json';
             a.click();
             URL.revokeObjectURL(url);
-            playSound('success');
         }
-
-        // ============================================
-        // RENDER FUNCTION
-        // ============================================
-
-        function render() {
-            renderPlayerList();
-            updateGameContent();
-
-            // Update header badges
-            document.getElementById('playerCount').textContent = gameState.players.length;
-            document.getElementById('nightCount').textContent = gameState.nightCount;
-            document.getElementById('dayCount').textContent = gameState.dayCount;
-
-            // Update phase display
-            document.getElementById('phaseDisplay').textContent = gameState.phase.toUpperCase();
-
-            // Show alive counts during active phases
-            const aliveCountsEl = document.getElementById('aliveCounts');
-            if (aliveCountsEl && (gameState.phase === 'night' || gameState.phase === 'day')) {
-                const aliveMafia = gameState.players.filter(p => p.alive && (p.role === 'Mafia' || p.role === 'Godfather')).length;
-                const aliveTown = gameState.players.filter(p => p.alive && p.role !== 'Mafia' && p.role !== 'Godfather')).length;
-
-                aliveCountsEl.innerHTML = `
-                    <div class="status-badge mafia" style="background: var(--mafia);">
-                        🎭 ${aliveMafia}
-                    </div>
-                    <div class="status-badge town" style="background: var(--town);">
-                        🏘 ${aliveTown}
-                    </div>
-                `;
-                aliveCountsEl.style.display = 'flex';
-            } else {
-                aliveCountsEl.style.display = 'none';
-            }
-
-            renderNotes();
-            renderLog();
-        }
-
-        // Keyboard handler
-        document.addEventListener('keydown', (e) => {
-            // Handle Enter in player input
-            if (e.key === 'Enter') {
-                const input = document.getElementById('playerNameInput');
-                if (document.activeElement === input) {
-                    e.preventDefault();
-                    addPlayer();
-                }
-            }
-
-            // Space to advance through prompts (if applicable)
-            if (e.key === ' ' && gameState.phase !== 'setup' && gameState.phase !== 'gameover') {
-                e.preventDefault();
-                const flow = phaseFlows[gameState.phase];
-                if (flow && flow.canProceed && flow.canProceed()) {
-                    executeStep(flow.steps.findIndex(s => s.action === 'continueToDay' || s.action === 'continueToNight'));
-                }
-            }
-
-            // Escape to close modal
-            if (e.key === 'Escape') {
-                const overlay = document.getElementById('modalOverlay');
-                if (overlay.classList.contains('active')) {
-                    closeModal();
-                }
-            }
-        });
-
-        // ============================================
-        // INITIALIZE
-        // ============================================
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadFromStorage();
-            render();
-        });
     </script>
 </body>
 </html>
